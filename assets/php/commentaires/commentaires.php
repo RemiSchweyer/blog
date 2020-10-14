@@ -42,8 +42,29 @@ $donnees = $req->fetch();
 
 <h2>Commentaires</h2>
 
+    <form action="commentaires_post.php" method="post">
+        <p>
+            <label for="auteur">Pseudo</label> : <input type="text" name="auteur" id="auteur" /><br />
+            <label for="commentaire">Message</label> : <input type="text" name="commentaire" id="commentaire" /><br />
+
+            <input type="submit" value="Envoyer" />
+        </p>
+    </form>
+
 <?php
 $req->closeCursor(); // Important : on libère le curseur pour la prochaine requête
+    
+        
+// Connexion à la base de données
+try
+{
+	$bdd = new PDO('mysql:host=localhost;dbname=JF_blog;charset=utf8', 'root', 'root');
+}
+catch(Exception $e)
+{
+        die('Erreur : '.$e->getMessage());
+}
+
 
 // Récupération des commentaires
 $req = $bdd->prepare('SELECT auteur, commentaire, DATE_FORMAT(date_commentaire, \'%d/%m/%Y à %Hh%imin%ss\') AS date_commentaire_fr FROM commentaires WHERE id_billet = ? ORDER BY date_commentaire');
