@@ -30,10 +30,20 @@ try { // On essaie de faire des choses
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
         }
+        elseif ($_GET['action'] == 'registerUser') {
+            if ((isset($_POST['username'])) && (!empty($_POST['username'])) && (isset($_POST['password'])) && (!empty($_POST['password'])) && (isset($_POST['email'])) && (!empty($_POST['email']))) {
+                createUser();
+            }
+            else {
+                throw new Exception('Saisie incorrecte');
+            }
+        }
     }
     else {
         listPosts();
     }
+    
+    
 }
 catch(Exception $e) { // S'il y a eu une erreur, alors...
     echo 'Erreur : ' . $e->getMessage();

@@ -36,6 +36,41 @@ function getComments($postId)
     return $comments;
 }
 
+function registerUser ($username, $pass_hache, $email) {
+    $db = dbConnect();
+    $req = $db->prepare('INSERT INTO users(username, password, email, register_date) VALUES(:username, :password, :email, CURDATE())');
+    $req->execute(array(
+    'username' => $username,
+    'password' => $pass_hache,
+    'email' => $email));
+    
+    return $req;
+}
+
+function connectUser () {
+    $db = dbConnect();
+    $req = $bd->prepare('SELECT username, password FROM users WHERE username = :username');
+    $req->execute(array(
+    'username' => $username));
+    $result = $req->fetch();
+}
+
+function checkUsername ($username) {
+    $db = dbConnect();
+    $req = $bd->prepare('SELECT username FROM users WHERE username = :username');
+    $req->excecute(array(
+    'username' => $username));
+    return $req;
+}
+
+function checkEmail ($email) {
+    $db = dbConnect();
+    $req = $bd->prepare('SELECT username FROM users WHERE email = :email');
+    $req->excecute(array(
+    'email' => $email));
+    return $req;
+}
+
 // Connection à la database
 function dbConnect()
 {
